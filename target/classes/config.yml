@@ -1,0 +1,16 @@
+#
+#  Commands | Permission:
+#   - /limitchanger | limitchanger.command.main
+#   - ~ | limitchanger.notify
+#
+
+# Plugin settings
+main-settings:
+  # Should the new online value be saved to the server.properties file?
+  # If false, then upon restart the maximum online value will be taken from server.properties before the change
+  save-new-max-players: true
+
+# Plugin messages
+messages:
+  no-permissions: "&cYou do not have permission to use this command!"
+  changed: "&6Administrator &#00d5fb%executor% &6changed the value of the maximum online to &#00d5fb%max_online%"

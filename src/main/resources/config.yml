@@ -12,5 +12,5 @@ main-settings:
 
 # Plugin messages
 messages:
-  no-permissions: "&cYou do not have permission to use this command!"
-  changed: "&6Administrator &#00d5fb%executor% &6changed the value of the maximum online to &#00d5fb%max_online%"
+  no-permissions: "&8[&6LimitChanger&8] &7» &cYou do not have permission to use this command!"
+  changed: "&8[&6LimitChanger&8] &7» &fAdministrator &#00d5fb%executor% &fchanged the value of the maximum online to &#00d5fb%max_online%" # %executor% %max_online%

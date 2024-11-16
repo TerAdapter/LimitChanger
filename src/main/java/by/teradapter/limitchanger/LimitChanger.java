@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,8 @@ import java.util.Properties;
 
 public final class LimitChanger extends JavaPlugin implements CommandExecutor, TabCompleter {
 
+    private final FileConfiguration cfg = this.getConfig();
+
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
@@ -25,15 +28,16 @@ public final class LimitChanger extends JavaPlugin implements CommandExecutor, T
 
     @Override
     public void onDisable() {
-        if (this.getConfig().getBoolean("main-settings.save-new-max-players")) {
+        if (cfg.getBoolean("main-settings.save-new-max-players")) {
             updateServerProperties();
         }
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (!sender.hasPermission("limitchanger.command.main")) {
-            sender.sendMessage(ColorUtils.colorize(this.getConfig().getString("messages.no-permissions")));
+            sender.sendMessage(ColorUtils.colorize(cfg.getString("messages.no-permissions")));
             return true;
         }
 
@@ -54,7 +58,7 @@ public final class LimitChanger extends JavaPlugin implements CommandExecutor, T
                                 sender.sendMessage(ChatColor.RED + "The value cannot be less than zero or exceed " + Integer.MAX_VALUE);
                             } else {
                                 Bukkit.setMaxPlayers(maxPlayers);
-                                Bukkit.broadcast(ColorUtils.colorize(this.getConfig().getString("messages.changed"))
+                                Bukkit.broadcast(ColorUtils.colorize(cfg.getString("messages.changed"))
                                         .replace("%executor%", sender.getName())
                                         .replace("%max_online%", String.valueOf(maxPlayers)), "limitchanger.notify");
                             }
@@ -62,16 +66,16 @@ public final class LimitChanger extends JavaPlugin implements CommandExecutor, T
                             sender.sendMessage(ChatColor.RED + "Please enter a valid number for max players.");
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Please provide a value after 'set'.");
+                        sender.sendMessage(ChatColor.RED + "Please provide a value after «set»");
                     }
                     break;
 
                 default:
-                    sender.sendMessage(ChatColor.RED + "Invalid command. Use /limitchanger reload or /limitchanger set <value>.");
+                    sender.sendMessage(ChatColor.RED + "Invalid command! Use /limitchanger reload or /limitchanger set <value>");
                     break;
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "Please specify 'reload' or 'set <value>'.");
+            sender.sendMessage(ChatColor.RED + "Please specify «reload» or set «value»");
         }
 
         return true;
@@ -92,14 +96,14 @@ public final class LimitChanger extends JavaPlugin implements CommandExecutor, T
                 return;
             }
 
-            Bukkit.getLogger().info("Save the new value of the maximum online in the server.properties file");
+             getLogger().info("Save the new value of the maximum online in the server.properties file");
             properties.setProperty("max-players", maxPlayers);
 
             try (OutputStream os = new FileOutputStream(propertiesFile)) {
                 properties.store(os, "Minecraft server properties");
             }
         } catch (IOException e) {
-            Bukkit.getLogger().severe("Could not save the new value of the maximum online in the server.properties file: " + e);
+            getLogger().severe("Could not save the new value of the maximum online in the server.properties file: " + e);
         }
     }
 

@@ -3,18 +3,10 @@ version: '1.0.0'
 main: by.teradapter.limitchanger.LimitChanger
 api-version: '1.16'
 authors: [TerAdapter]
-description: Позволяет менять максимальное количество онлайн игроков
 commands:
   limitchanger:
     aliases:
-      - extendonline
-      - maxonline
-      - playerlimiter
-      - playerlimitchanger
-      - editplayerlimit
       - lc
-      - mo
-      - epl
 permissions:
   limitchanger.command.main:
     default: op
